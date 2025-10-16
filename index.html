@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhushan Patil - Portfolio</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #f59e0b;
+            --dark-color: #0f172a;
+            --darker-color: #0a0f1c;
+            --light-color: #1e293b;
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --white: #f8fafc;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --glass-bg: rgba(15, 23, 42, 0.7);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            overflow-x: hidden;
+            background-color: var(--darker-color);
+            background-image: 
+                radial-gradient(at 80% 20%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 10% 80%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        header.scrolled {
+            padding: 5px 0;
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            animation: rotate 10s linear infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: var(--dark-color);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: float 20s infinite linear;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            width: 100%;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-content .title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.8s forwards;
+            color: var(--primary-color);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.1s forwards;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background: var(--accent-color);
+            color: var(--dark-color);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.4s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            font-size: 2.8rem;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* About */
+        .about {
+            background: var(--dark-color);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .about-image {
+            width: 100%;
+            max-width: 350px;
+            height: 400px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.5s ease;
+            background: var(--gradient);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .about-image:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .photo-placeholder {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            z-index: 1;
+        }
+
+        .photo-text {
+            font-size: 1.2rem;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .about-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+        }
+
+        .detail-item i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        /* Skills */
+        .skills {
+            background: var(--darker-color);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .skill-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .skill-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .skill-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .skill-bar {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            height: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* Projects */
+        .projects {
+            background: var(--dark-color);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 220px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .project-image::after {
+            opacity: 1;
+        }
+
+        .project-content {
+            padding: 1.8rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .project-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        /* Contact */
+        .contact {
+            background: var(--darker-color);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: rgba(15, 23, 42, 0.5);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: var(--white);
+            padding: 3rem 0 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-5px) translateX(-50%);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+
+        /* Particle background */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            animation: float-particle 15s infinite linear;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Photo Upload Area */
+        .photo-upload {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--accent-color);
+            color: var(--dark-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .upload-btn:hover {
+            background: #e69008;
+        }
+
+        /* Glow Effects */
+        .glow {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--dark-color);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+                text-align: center;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .about-details {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skill-card, .project-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Portfolio Data
+        const portfolioData = {
+            personalInfo: {
+                name: "Bhushan Patil",
+                title: "Full Stack Developer",
+                email: "bhushanpatil23.pcu.edu.in",
+                phone: "8767314563",
+                location: "PUNE MAHARASHTRA, INDIA",
+                bio: "I'm a passionate full-stack developer with over 1 years of experience creating digital solutions that blend beautiful design with robust functionality. I specialize in React, Node.js, and modern web technologies.",
+                bio2: "When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community through blog posts and tutorials."
+            },
+            skills: [
+                { name: "React.js", level: 95, icon: "fab fa-react" },
+                { name: "JavaScript", level: 90, icon: "fab fa-js" },
+                { name: "HTML/CSS", level: 98, icon: "fab fa-html5" },
+                { name: "Node.js", level: 85, icon: "fab fa-node-js" },
+                { name: "Python", level: 80, icon: "fab fa-python" },
+                
+            ],
+            projects: [
+                {
+                    title: "E-Commerce Platform",
+                    description: "A full-stack e-commerce solution with React, Node.js, and MongoDB featuring user authentication, payment processing, and admin dashboard.",
+                    technologies: ["React", "Node.js", "MongoDB", "Stripe"]
+                },
+                {
+                    title: "Task Management App",
+                    description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
+                    technologies: ["React", "Firebase", "Material-UI", "Context API"]
+                },
+                {
+                    title: "Weather Dashboard",
+                    description: "Real-time weather forecasting application with interactive maps, detailed forecasts, and location-based recommendations.",
+                    technologies: ["JavaScript", "API Integration", "Chart.js", "Leaflet"]
+                },
+                {
+                    title: "Fitness Tracker",
+                    description: "A comprehensive fitness tracking application with workout plans, progress tracking, and social features for motivation.",
+                    technologies: ["React Native", "Firebase", "Redux", "Chart.js"]
+                }
+            ]
+        };
+
+        // Particle Background Component
+        const ParticleBackground = () => {
+            const containerRef = useRef(null);
+            
+            useEffect(() => {
+                const container = containerRef.current;
+                const particleCount = 30;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // Random properties
+                    const size = Math.random() * 10 + 5;
+                    const left = Math.random() * 100;
+                    const animationDuration = Math.random() * 20 + 10;
+                    const animationDelay = Math.random() * 5;
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${left}%`;
+                    particle.style.animationDuration = `${animationDuration}s`;
+                    particle.style.animationDelay = `${animationDelay}s`;
+                    
+                    container.appendChild(particle);
+                }
+            }, []);
+            
+            return <div className="particles" ref={containerRef}></div>;
+        };
+
+        // Header Component
+        const Header = () => {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    const isScrolled = window.scrollY > 50;
+                    setScrolled(isScrolled);
+                };
+
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <header className={scrolled ? 'scrolled' : ''}>
+                    <div className="container">
+                        <nav>
+                            <div className="logo">
+                                <i className="fas fa-code logo-icon"></i>
+                                {portfolioData.personalInfo.name.split(' ')[0]}
+                            </div>
+                            <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+                                <li><a href="#home" onClick={() => setIsMenuOpen(false)}>Home</a></li>
+                                <li><a href="#about" onClick={() => setIsMenuOpen(false)}>About</a></li>
+                                <li><a href="#skills" onClick={() => setIsMenuOpen(false)}>Skills</a></li>
+                                <li><a href="#projects" onClick={() => setIsMenuOpen(false)}>Projects</a></li>
+                                <li><a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a></li>
+                            </ul>
+                            <div className="mobile-menu" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                                <i className={isMenuOpen ? 'fas fa-times' : 'fas fa-bars'}></i>
+                            </div>
+                        </nav>
+                    </div>
+                </header>
+            );
+        };
+
+        // Hero Component
+        const Hero = () => (
+            <section id="home" className="hero">
+                <ParticleBackground />
+                <div className="container">
+                    <div className="hero-content">
+                        <h1>Hello, I'm {portfolioData.personalInfo.name}</h1>
+                        <div className="title">{portfolioData.personalInfo.title}</div>
+                        <p>I create amazing digital experiences with modern technologies and innovative design</p>
+                        <a href="#projects" className="btn">View My Work</a>
+                    </div>
+                </div>
+                <div className="scroll-indicator">
+                    <i className="fas fa-chevron-down"></i>
+                </div>
+            </section>
+        );
+
+        // About Component with Photo
+        const About = () => {
+            const [photo, setPhoto] = useState(null);
+
+            const handlePhotoUpload = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    // Check if file is JPG/JPEG
+                    if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            setPhoto(event.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert('Please upload a JPG/JPEG image only.');
+                        // Reset the input
+                        e.target.value = '';
+                    }
+                }
+            };
+
+            return (
+                <section id="about" className="about">
+                    <div className="container">
+                        <h2 className="section-title">About Me</h2>
+                        <div className="about-content">
+                            <div className="about-image-container">
+                                <div className="about-image">
+                                    {photo ? (
+                                        <img 
+                                            src={photo} 
+                                            alt="Profile" 
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                borderRadius: '20px',
+                                                position: 'absolute',
+                                                top: 0,
+                                                left: 0
+                                            }}
+                                        />
+                                    ) : (
+                                        <>
+                                            <i className="fas fa-user photo-placeholder"></i>
+                                            <div className="photo-text">Your Photo Here</div>
+                                            <div className="photo-text" style={{fontSize: '0.9rem', marginTop: '10px'}}>
+                                                Upload JPG Image
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                                <div className="photo-upload">
+                                    <label htmlFor="photo-upload" className="upload-btn">
+                                        <i className="fas fa-upload"></i> Upload JPG Photo
+                                    </label>
+                                    <input 
+                                        id="photo-upload" 
+                                        type="file" 
+                                        accept=".jpg,.jpeg,image/jpeg" 
+                                        onChange={handlePhotoUpload}
+                                        style={{ display: 'none' }}
+                                    />
+                                    <div style={{fontSize: '0.8rem', color: '#94a3b8', marginTop: '8px'}}>
+                                        JPG/JPEG files only
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="about-text">
+                                <h3>Creating Digital Solutions That Matter</h3>
+                                <p>{portfolioData.personalInfo.bio}</p>
+                                <p>{portfolioData.personalInfo.bio2}</p>
+                                
+                                <div className="about-details">
+                                    <div className="detail-item">
+                                        <i className="fas fa-envelope"></i>
+                                        <span>{portfolioData.personalInfo.email}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <i className="fas fa-phone"></i>
+                                        <span>{portfolioData.personalInfo.phone}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <i className="fas fa-map-marker-alt"></i>
+                                        <span>{portfolioData.personalInfo.location}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <i className="fas fa-calendar-alt"></i>
+                                        <span>1 Years Experience</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Skills Component
+        const Skills = () => {
+            const [animated, setAnimated] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    const skillsSection = document.getElementById('skills');
+                    if (skillsSection) {
+                        const rect = skillsSection.getBoundingClientRect();
+                        if (rect.top < window.innerHeight * 0.8) {
+                            setAnimated(true);
+                        }
+                    }
+                };
+
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <section id="skills" className="skills">
+                    <div className="container">
+                        <h2 className="section-title">My Skills</h2>
+                        <div className="skills-grid">
+                            {portfolioData.skills.map((skill, index) => (
+                                <div key={index} className="skill-card">
+                                    <i className={`${skill.icon} skill-icon`}></i>
+                                    <h3>{skill.name}</h3>
+                                    <div className="skill-bar">
+                                        <div 
+                                            className="skill-progress" 
+                                            style={{ width: animated ? `${skill.level}%` : '0%' }}
+                                        ></div>
+                                    </div>
+                                    <span>{skill.level}%</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Projects Component
+        const Projects = () => (
+            <section id="projects" className="projects">
+                <div className="container">
+                    <h2 className="section-title">My Projects</h2>
+                    <div className="projects-grid">
+                        {portfolioData.projects.map((project, index) => (
+                            <div key={index} className="project-card">
+                                <div className="project-image">
+                                    <i className="fas fa-laptop-code" style={{fontSize: '3rem'}}></i>
+                                </div>
+                                <div className="project-content">
+                                    <h3>{project.title}</h3>
+                                    <p>{project.description}</p>
+                                    <div className="project-tech">
+                                        {project.technologies.map((tech, techIndex) => (
+                                            <span key={techIndex} className="tech-tag">
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+
+        // Contact Component
+        const Contact = () => {
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                message: ''
+            });
+
+            const handleChange = (e) => {
+                setFormData({
+                    ...formData,
+                    [e.target.name]: e.target.value
+                });
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                alert('Thank you for your message! I\'ll get back to you soon.');
+                setFormData({ name: '', email: '', message: '' });
+            };
+
+            return (
+                <section id="contact" className="contact">
+                    <div className="container">
+                        <h2 className="section-title">Get In Touch</h2>
+                        <div className="contact-container">
+                            <div className="contact-info">
+                                <div className="contact-item">
+                                    <div className="contact-icon">
+                                        <i className="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Email</h3>
+                                        <p>{portfolioData.personalInfo.email}</p>
+                                    </div>
+                                </div>
+                                <div className="contact-item">
+                                    <div className="contact-icon">
+                                        <i className="fas fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Phone</h3>
+                                        <p>{portfolioData.personalInfo.phone}</p>
+                                    </div>
+                                </div>
+                                <div className="contact-item">
+                                    <div className="contact-icon">
+                                        <i className="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Location</h3>
+                                        <p>{portfolioData.personalInfo.location}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="contact-form">
+                                <form onSubmit={handleSubmit}>
+                                    <div className="form-group">
+                                        <label>Your Name</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Your Email</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Your Message</label>
+                                        <textarea
+                                            name="message"
+                                            value={formData.message}
+                                            onChange={handleChange}
+                                            required
+                                        ></textarea>
+                                    </div>
+                                    <button type="submit" className="btn">Send Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Footer Component
+        const Footer = () => (
+            <footer>
+                <div className="container">
+                    <div className="footer-content">
+                        <div className="logo">
+                            <i className="fas fa-code"></i>
+                            {portfolioData.personalInfo.name}
+                        </div>
+                        <div className="social-links">
+                            <a href="#" title="GitHub"><i className="fab fa-github"></i></a>
+                            <a href="#" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+                            <a href="#" title="Twitter"><i className="fab fa-twitter"></i></a>
+                            <a href="#" title="Instagram"><i className="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div className="copyright">
+                        &copy; 2023 {portfolioData.personalInfo.name}. All rights reserved.
+                    </div>
+                </div>
+            </footer>
+        );
+
+        // Main App Component
+        const App = () => {
+            useEffect(() => {
+                // Smooth scrolling for navigation links
+                const links = document.querySelectorAll('a[href^="#"]');
+                links.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const target = document.querySelector(link.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+                });
+
+                // Animation on scroll
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('fade-in');
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.skill-card, .project-card, .about-content, .contact-container').forEach(el => {
+                    observer.observe(el);
+                });
+            }, []);
+
+            return (
+                <div>
+                    <Header />
+                    <Hero />
+                    <About />
+                    <Skills />
+                    <Projects />
+                    <Contact />
+                    <Footer />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
